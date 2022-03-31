@@ -30,7 +30,7 @@ def nitro():
     global taken
     while True:
         os.system(f"title  Boolty´s FireCracker Mod Nitro Gen Valid : [{valid}]  Invalid : [{invalid}] Taken : [{taken}]") 
-        if proxymod == 'yes':
+        if proxymod == 'y':
             proxy =random.choice(lines)
             if proxytype == "https":
                 proxies = {'https': 'https://%s' % (proxy)}
@@ -48,7 +48,7 @@ def nitro():
         #gift = "".join(random.choice(characters) for i in range(16))
         print(f"{Fore.CYAN}[?] Testing discord.gift/{gift}")
         try:
-            if proxymod == 'yes':
+            if proxymod == 'y':
                 r = requests.get(f"https://ptb.discordapp.com/api/v6/entitlements/gift-codes/{gift}", proxies = proxies)
             r = requests.get(f"https://ptb.discordapp.com/api/v6/entitlements/gift-codes/{gift}")          
             if r.status_code == 404:
