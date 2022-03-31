@@ -1,131 +1,87 @@
-import time
 import requests
+import time
+import string 
+from colorama import init, Fore, Back, Style
+import os,threading
 import random
-import os
-import sys
-from discord_webhook import DiscordWebhook
-from os import system
-import urllib.request
 
-print( '''
-____    __    ____  __    __   __       __    __  
-\   \  /  \  /   / |  |  |  | |  |     |  |  |  | 
- \   \/    \/   /  |  |  |  | |  |     |  |  |  | 
-  \            /   |  |  |  | |  |     |  |  |  | 
-   \    /\    /    |  `--'  | |  `----.|  `--'  | 
-    \__/  \__/      \______/  |_______| \______/   CrackerFIX By Boolty                                             
-''')
 
-webhook = ""
+init(convert=True)
+valid = 0
+invalid = 0
+taken = 0
 
-def generatecodes():
-    epoch = 0
+characters = string.ascii_letters +  string.digits
+ 
+
+
+        
+lines = open('proxies.txt').read().splitlines()
+def title():
+    global valid
+    global invalid
+    global taken
     while True:
-        print( "How many codes to generate?")
-        num = 5000
-        codes = []
-        for i in range(num):
-            alphabet = "abcdefghijklmnopqrstubwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-            l = list(alphabet)
-            random.shuffle(l)
-            shuffle = ''.join(l)
-            result = shuffle[0:16]
-    
-            codes.append(result)
-        
-        g = open('codes.txt', 'r+')
-        g.truncate(0)
-    
-        with open('codes.txt', 'w') as f:
-            for item in codes:
-                f.write("%s\n" % item)
-    
-    
-        print("Done generating codes. Generated: " + str(len(open("codes.txt","r").readlines())) + " codes" )
-        time.sleep(1)
-    
-        if len(open("codes.txt","r").readlines()) == 0:
-            print("There isnt any codes. You can generate some using this program or use some external one, but make sure they are only the codes. Exiting.")
-            time.sleep(1)
-            sys.exit()
-        print("Found ", str(len(open("codes.txt","r").readlines())) + " codes.")
-    
-        
-    
-    
-        time.sleep(.3)
-        print("Do you want to use discord webhooks? [1] YES [2] NO")
-        #choice2 = input("")
-        #if choice2=="1":
-        #    print("Webhook URL: ")
-        #    webhook = input()
-        valid = 0
-        invalid = 0
-        checked = 0
-        epoch += 1
-        invalidList = []
-        validList = []
-    
-        
-    
-        with open('codes.txt') as f:
-            for line in f:
-                url = f"https://discordapp.com/api/v9/entitlements/gift-codes/{line}?with_application=false&with_subscription_plan=true"
-                if requests.get(url).status_code == 200:
-                    print("Found a valid nitro code: ", line)
-                    if choice2: 
-                        content = "found a valid code: "+" discord.gift/" + line
-                        webhook = DiscordWebhook(url=webhook, rate_limit_retry=True,content=content)
-                        response = webhook.execute()
-                        valid += 1
-                        print("discord.gift/"+line.rstrip(), "valid!!!!!!!")
-                        validList.append("discord.gift/"+line.rstrip())
-                    print("discord.gift/"+line.rstrip(), "valid!!!!!!!")
-                    validList.append("discord.gift/"+line.rstrip())
-                    valid += 1
-                    with open('valid.txt', 'a') as file:
-                        file.write("discord.gift/"+line.rstrip())
-    
-                if requests.get(url).status_code == 404:
-                    print("rate limited")
-    
-                else:
-                    print("discord.gift/"+line.rstrip(), "is invalid.")
-                    invalid += 1
-                    invalidList.append("discord.gift/"+line.rstrip())
-                
-                
-    
-    
-                checked += 1
-                title = "Invalid: " + str(invalid) + " Valid: " + str(valid) + ' Epoch: ' + str(epoch) + " Remaining: " + str(checked) + "/" + str(len(open("codes.txt","r").readlines()))
-                system("title " + title )
-            info = "Invalid: " + str(invalid) + " Valid: " + str(valid) + ' Epoch: ' + str(epoch) + " Remaining: " + str(checked) + "/" + str(len(open("codes.txt","r").readlines()))
-            print("Finished checkings, you got ", info)
-            print("Saving invalid and valid codes...")
-    
-            with open('invalid.txt', 'a') as g:
-                for item in invalidList:
-                    g.write("%s\n" % item)
-    
-            with open('valid.txt', 'a') as f:
-                for item in validList:
-                    f.write("%s\n" % item)
-    
-            print("Saved.")
+        os.system(f"title Boolty´s FireCracker Mod Nitro Gen Valid : [{valid}]  Invalid : [{invalid}] Taken : [{taken}]")
 
+def nitro():
+    global valid
+    global invalid
+    global taken
+    while True:
+        os.system(f"title  Boolty´s FireCracker Mod Nitro Gen Valid : [{valid}]  Invalid : [{invalid}] Taken : [{taken}]") 
+        if proxymod == 'yes':
+            proxy =random.choice(lines)
+            if proxytype == "https":
+                proxies = {'https': 'https://%s' % (proxy)}
+            elif proxytype == "http":
+                proxies = {'http': 'http://%s' % (proxy)}
+            else:
+                print(" > INVALID PROXY TYPE GIVEN, RESTART REQUIRED!")
+            continue
 
-print("[1] START FIRECRACKER [2] THANKS MY LORD FOR CODE [3] EXIT")
+        alphabet = "abcdefghijklmnopqrstubwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        l = list(alphabet)
+        random.shuffle(l)
+        shuffle = ''.join(l)
+        gift = shuffle[0:16]
+        #gift = "".join(random.choice(characters) for i in range(16))
+        print(f"{Fore.CYAN}[?] Testing discord.gift/{gift}")
+        try:
+            if proxymod == 'yes':
+                r = requests.get(f"https://ptb.discordapp.com/api/v6/entitlements/gift-codes/{gift}", proxies = proxies)
+            r = requests.get(f"https://ptb.discordapp.com/api/v6/entitlements/gift-codes/{gift}")          
+            if r.status_code == 404:
+                print(f"{Fore.RED}[-] discord.gift/{gift} - Ratelimited")
+                f = open("taken.txt", "a")
+                taken += 1
+                f.write("https://discord.gift/"+gift)
+                f.close()
+            elif r.status_code == 429:
+                print(f"{Fore.RED}[-] discord.gift/{gift} - Invalid")
+                invalid += 1
+                time.sleep(5)
+            elif r.status_code == 200: 
+                print(f"{Fore.GREEN}[-] discord.gift/{gift} -Valid Code - Saved to valid.txt")
+                f = open("valids.txt", "a")
+                valid += 1
+                f.write("https://discord.gift/"+gift)
+                f.close()
+        except:
+            pass
 
-choice1 = input()
+threading.Thread(target = title).start()
 
-if choice1=="1":
-    generatecodes()
-
-
-if choice1=="2":
-    #checkCodes()
-    pass
-
-if choice1=="3":
-    sys.exit()
+threadcount = int(input(" > Number of threads?\n > "))
+while True:
+    proxymod = input('Want use Proxy list? Y or N\n ')
+    Fl = proxymod[0].lower()
+    if proxymod == '' or not Fl in ['y','n']:
+        print('Pls only y or n...')
+    else:
+        break               
+if proxymod == 'y':
+    proxytype = input(" > HTTP or HTTPS\n > ").lower()
+for i in range(threadcount):
+    threading.Thread(target = nitro).start()
+    time.sleep(0.1)
