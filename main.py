@@ -10,6 +10,7 @@ init(convert=True)
 valid = 0
 invalid = 0
 taken = 0
+proxymod = ''
 
 characters = string.ascii_letters +  string.digits
  
@@ -28,17 +29,18 @@ def nitro():
     global valid
     global invalid
     global taken
+    global proxymod
     while True:
-        os.system(f"title  Boolty´s FireCracker Mod Nitro Gen Valid : [{valid}]  Invalid : [{invalid}] Taken : [{taken}]") 
+        os.system(f"title Boolty´s FireCracker Mod Nitro Gen Valid : [{valid}]  Invalid : [{invalid}] Taken : [{taken}]") 
         if proxymod == 'y':
-            proxy =random.choice(lines)
+            proxy = random.choice(lines)
             if proxytype == "https":
                 proxies = {'https': 'https://%s' % (proxy)}
             elif proxytype == "http":
                 proxies = {'http': 'http://%s' % (proxy)}
             else:
                 print(" > INVALID PROXY TYPE GIVEN, RESTART REQUIRED!")
-            continue
+                continue   
 
         alphabet = "abcdefghijklmnopqrstubwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         l = list(alphabet)
@@ -50,7 +52,8 @@ def nitro():
         try:
             if proxymod == 'y':
                 r = requests.get(f"https://ptb.discordapp.com/api/v6/entitlements/gift-codes/{gift}", proxies = proxies)
-            r = requests.get(f"https://ptb.discordapp.com/api/v6/entitlements/gift-codes/{gift}")          
+            elif proxymod == 'n':
+                r = requests.get(f"https://ptb.discordapp.com/api/v6/entitlements/gift-codes/{gift}")          
             if r.status_code == 404:
                 print(f"{Fore.RED}[-] discord.gift/{gift} - Ratelimited")
                 f = open("taken.txt", "a")
